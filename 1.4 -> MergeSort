@@ -1,0 +1,83 @@
+https://www.codingninjas.com/codestudio/problems/merge-sort_920442?leftPanelTab=0&utm_source=youtube&utm_medium=affiliate&utm_campaign=love_babbar_14
+
+Approch:
+-------
+step 1: array ko divide kr do 2 part mai.
+step 2: phr sort kr do resursion ka use sa
+step 3: jab yeah sort hogaya tho pehla part bhi sort hogaya and dusra part bhi sort hogaya.
+step 4: phr dono sorted array ko merge kr do
+
+code:
+-----
+void merge(vector < int > & arr,int s,int e){
+    //mid niakal lo pehla
+    int mid = (s+e)/2;
+    
+    int len1 = mid - s + 1;
+    int *arr1 = new int[len1];
+    
+    int len2= e - mid;
+    int *arr2 = new int[len2];
+    //maina array ka half deta first array mai copy kr rha hai
+    int mainArrayIndex = s;
+    for(int i=0;i<len1;i++){
+        arr1[i] = arr[mainArrayIndex++];
+       // mainArrayIndex++;
+    }
+    
+    mainArrayIndex = mid+1;
+    for(int i=0;i<len2;i++){
+        arr2[i] = arr[mainArrayIndex++];
+        //mainArrayIndex++;
+    }
+    
+    //merge 2 sorted array
+    int index1 = 0;
+    int index2 = 0;
+    mainArrayIndex=s;
+    
+    while(index1 < len1 && index2 < len2){
+        if(arr1[index1] < arr2[index2]){
+            arr[mainArrayIndex] = arr1[index1];
+            mainArrayIndex++;
+            index1++;
+        }
+        else{
+            arr[mainArrayIndex] = arr2[index2];
+            mainArrayIndex++;
+            index2++;
+        }
+    }
+    while(index1 < len1){
+        arr[mainArrayIndex] = arr1[index1];
+        mainArrayIndex++;
+        index1++;
+    }
+    while(index2 < len2){
+        arr[mainArrayIndex] = arr2[index1];
+        mainArrayIndex++;
+        index2++;
+    }
+}
+void merge_sort(vector < int > & arr,int s,int e){
+    //basecase
+    if(s >= e){
+        return;
+    }
+    //mid niaklao
+    int mid = (s+e)/2;
+    
+    //left sort kr denga pura
+    merge_sort(arr,s,mid);
+    
+    //right sort krna hai
+    merge_sort(arr,mid+1,e);
+    
+    //merge the array
+    merge(arr,s,e);
+    
+}
+void mergeSort(vector < int > & arr, int n) {
+   
+    merge_sort(arr,0,n-1);
+}
