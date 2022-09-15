@@ -1,3 +1,12 @@
+//element ko uthata hai uski right place mai rakhta hai
+  is tarah ki us element kaleft side mai usa chota no. ho
+  (or) right 
+
+//partition:
+  take a pivot
+  count all element less than pivot
+  
+
 #include <iostream>
 using namespace std;
 
