@@ -7,18 +7,15 @@
   count all element less than pivot
   
 
-#include <bits/stdc++.h> 
-
-int pos(vector<int> &arr,int s,int e){
-    
+#include <bits/stdc++.h>
+int partition(vector<int> &arr,int s,int e){
     int pivot = arr[s];
     int count = 0;
-    for(int i=s+1;i<e;i++){
+    for(int i=s+1;i<=e;i++){
         if(arr[i] < pivot){
             count++;
         }
     }
-    
     int pivotIndex = s+count;
     
     swap(arr[pivotIndex],arr[s]);
@@ -26,25 +23,28 @@ int pos(vector<int> &arr,int s,int e){
     int i = s;
     int j = e;
     //left and right value usa chota hona cahiya
-    while(i < pivotIndex and pivotIndex > j){
-        if(arr[i] > pivot and arr[j] < pivot){
+    while(i < j){
+        if(arr[i] >= arr[pivotIndex] and arr[j] <= arr[pivotIndex]){
             swap(arr[i],arr[j]);
             i++;
             j--;
         }
-        else if(arr[i] < pivot){
+        else if(arr[i] <= pivot){
             i++;
         }
+        
         else{
             j--;
         }
+        
+        
     }
     return pivotIndex;
 }
 
 void quickSortAlgo(vector<int> &arr,int s,int e){
     //base case
-    if(s >= e){
+    if(s > e){
         return;
     }
     
@@ -52,14 +52,12 @@ void quickSortAlgo(vector<int> &arr,int s,int e){
     int pos = partition(arr,s,e);
     
     //left call
-    quickSort(arr,s,pos-1);
+    quickSortAlgo(arr,s,pos-1);
     //right call
-    quickSort(arr,pos+1,e);
+    quickSortAlgo(arr,pos+1,e);
 }
 vector<int> quickSort(vector<int> arr)
 {
-    //step1:
-    
     quickSortAlgo(arr,0,arr.size()-1);
     return arr;
 }
