@@ -3,81 +3,104 @@ https://www.codingninjas.com/codestudio/problems/merge-sort_920442?leftPanelTab=
 Approch:
 -------
 step 1: array ko divide kr do 2 part mai.
+
 step 2: phr sort kr do resursion ka use sa
-step 3: jab yeah sort hogaya tho pehla part bhi sort hogaya and dusra part bhi sort hogaya.
-step 4: phr dono sorted array ko merge kr do
+
+step 3: jab yeah sort hogaya tho pehla part
+bhi sort hogaya and dusra part bhi sort 
+hogaya array ka.
+
+step 4: phr left array create kro and right
+array create kro main array mai sa mid ka left
+part ko left array mai daal do. and right part
+ko right array mai daal do
+
+step 5: phr merge two sorted wala game khelna hai
+left and right part ko merge kr do
 
 code:
 -----
-void merge(vector < int > & arr,int s,int e){
-    //mid niakal lo pehla
-    int mid = (s+e)/2;
-    
-    int len1 = mid - s + 1;
-    int *arr1 = new int[len1];
-    
-    int len2= e - mid;
-    int *arr2 = new int[len2];
-    //maina array ka half deta first array mai copy kr rha hai
-    int mainArrayIndex = s;
-    for(int i=0;i<len1;i++){
-        arr1[i] = arr[mainArrayIndex++];
-       // mainArrayIndex++;
+void merge(int arr[],int s,int e){
+  int mid = (s+e)/2;
+
+  int len1 = mid-s+1;
+  int len2 = e - mid;
+
+  // yaha hum array ka values copy kar rha hai 
+  //new array mai
+  int *leftArr = new int[len1];
+  int *rightArr = new int[len2];
+
+  //left wala array mai left part copy  kia main array ka
+  int mainArrayIndex = s;
+
+  for(int i=0;i<len1;i++){
+    leftArr[i] = arr[mainArrayIndex];
+    mainArrayIndex++;
+  }
+
+  //right wala array mai right part copy  kia main array ka
+  mainArrayIndex = mid+1;
+
+  for(int i=0;i<len2;i++){
+    rightArr[i] = arr[mainArrayIndex];
+    mainArrayIndex++;
+  }
+
+  //merge kar do left and right sorted array ko
+  int leftIndex = 0;
+  int rightIndex = 0;
+  mainArrayIndex = s;
+
+  while(leftIndex < len1 && rightIndex < len2){
+    if(leftArr[leftIndex] < rightArr[rightIndex]){
+      arr[mainArrayIndex] = leftArr[leftIndex];
+      mainArrayIndex++;
+      leftIndex++;
     }
-    
-    mainArrayIndex = mid+1;
-    for(int i=0;i<len2;i++){
-        arr2[i] = arr[mainArrayIndex++];
-        //mainArrayIndex++;
+    else{
+      arr[mainArrayIndex] = rightArr[rightIndex];
+      mainArrayIndex++;
+      rightIndex++;
     }
-    
-    //merge 2 sorted array
-    int index1 = 0;
-    int index2 = 0;
-    mainArrayIndex=s;
-    
-    while(index1 < len1 && index2 < len2){
-        if(arr1[index1] < arr2[index2]){
-            arr[mainArrayIndex] = arr1[index1];
-            mainArrayIndex++;
-            index1++;
-        }
-        else{
-            arr[mainArrayIndex] = arr2[index2];
-            mainArrayIndex++;
-            index2++;
-        }
-    }
-    while(index1 < len1){
-        arr[mainArrayIndex] = arr1[index1];
-        mainArrayIndex++;
-        index1++;
-    }
-    while(index2 < len2){
-        arr[mainArrayIndex] = arr2[index1];
-        mainArrayIndex++;
-        index2++;
-    }
+  }
+
+  while(leftIndex < len1){
+    arr[mainArrayIndex] = leftArr[leftIndex];
+    mainArrayIndex++;
+    leftIndex++;
+  }
+
+  while(rightIndex < len2){
+    arr[mainArrayIndex] = rightArr[rightIndex];
+    mainArrayIndex++;
+    rightIndex++;
+  }
 }
-void merge_sort(vector < int > & arr,int s,int e){
-    //basecase
-    if(s >= e){
-        return;
-    }
-    //mid niaklao
-    int mid = (s+e)/2;
-    
-    //left sort kr denga pura
-    merge_sort(arr,s,mid);
-    
-    //right sort krna hai
-    merge_sort(arr,mid+1,e);
-    
-    //merge the array
-    merge(arr,s,e);
-    
+
+void mergeSort(int arr[],int s,int e){
+  //base case
+  if(s >= e){
+    return;
+  }
+  int mid = (s+e)/2;
+  //left part sort kr do
+  mergeSort(arr,s,mid);
+
+  //right part sort kr do
+  mergeSort(arr,mid+1,e);
+
+  //wapas sort krna ka baad merge kr do array ko
+  merge(arr,s,e);
 }
-void mergeSort(vector < int > & arr, int n) {
-   
-    merge_sort(arr,0,n-1);
+
+int main(){
+  int arr[5] = {5,4,10,3,1};
+  int n = 5;
+  mergeSort(arr,0,n-1);
+
+  for(int i=0;i<n;i++){
+    cout<<arr[i]<<" ";
+  }
+  cout<<endl;
 }
